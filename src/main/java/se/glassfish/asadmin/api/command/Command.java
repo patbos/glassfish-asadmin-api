@@ -127,7 +127,8 @@ public abstract class Command<E> {
             if (environment.getVersion() == Version.V2 || getCommandName().equals("create-domain") || getCommandName().equals("deploy") ||
                     getCommandName().equals("create-jdbc-connection-pool") || getCommandName().equals("create-jdbc-resource") ||
                     getCommandName().equals("create-jvm-options") ||
-                    getCommandName().equals("create-profiler")) {
+                    getCommandName().equals("create-profiler") || getCommandName().equals("create-jms-resource") ||
+    				getCommandName().equals("create-jmsdest")) {
                 commandLine.add(getCommandName());
             }
 
@@ -171,7 +172,8 @@ public abstract class Command<E> {
             if (environment.getVersion() == Version.V3 && !getCommandName().equals("create-domain") &&
                     !getCommandName().equals("create-jdbc-connection-pool") &&
                     !getCommandName().equals("create-jdbc-resource") && !getCommandName().equals("deploy") && !getCommandName().equals("create-jvm-options")
-                    && !getCommandName().equals("create-profiler")) {
+                    && !getCommandName().equals("create-profiler") && !getCommandName().equals("create-jms-resource")
+					&& !getCommandName().equals("create-jmsdest")) {
                 commandLine.add(getCommandName());
             }
 
