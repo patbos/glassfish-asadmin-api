@@ -259,6 +259,21 @@ public class Asadmin {
         return command.execute();
     }
 
+    public int createJdbcConnectionPool(String name, String datasourceclassname,
+                                        int steadypoolsize, int maxpoolsize, boolean isconnectvalidatereq,
+                                        JdbcValidationMethod validationMethod, String validationtable,
+                                        String validationclassname,
+                                        boolean failconnection, int validateatmostonceperiod, Properties properties,
+                                        JdbcResourceType restype, JdbcIsolationLevel isolationlevel,
+                                        boolean allownoncomponentcallers, boolean nontransactionalconnections)
+            throws CommandException {
+        CreateJdbcConnectionPoolCommand command = new CreateJdbcConnectionPoolCommand(environment, name,
+                datasourceclassname, steadypoolsize, maxpoolsize, isconnectvalidatereq, validationMethod,
+                validationtable, validationclassname, failconnection, validateatmostonceperiod, properties, restype,
+                isolationlevel, allownoncomponentcallers, nontransactionalconnections);
+        return command.execute();
+    }
+
 
     public int deleteJdbcConnectionPool(String name) throws CommandException {
         return new DeleteJdbcConnectionPoolCommand(environment, name).execute();

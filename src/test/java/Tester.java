@@ -24,12 +24,11 @@ public class Tester {
 
     public static void main(String[] args) throws Exception {
 
-        Asadmin gf = new Asadmin("/Users/patbos/glassfishv3", 16048, false, true, Version.V3);
-        //gf.deleteDomain("custarddomain");
-        //gf.createDomain("custarddomain", 16000, true, true, "developer");
-        //gf.startDomain("custarddomain");
-        gf.createDomain("custard4domain", 16100, true, true, "developer");
-        //gf.deleteJvmOptions("-client");
-        //gf.createJvmOptions("-XX:MaxPermSize=128m", "-server");
+        Asadmin gf = new Asadmin("//opt/glassfish/v2.1-patch14/glassfish", 4848, false, true, Version.V2);
+        //gf.createDomain("sunebanandomain");
+        //gf.startDomain("sunebanandomain");
+        //gf.createJvmOptions("-XX:CMSInitiatingOccupancyFraction=70");
+        //gf.createJvmOptions("-XX:+CMSClassUnloadingEnabled");
+        gf.createJvmOptions("-Xdebug");
     }
 }

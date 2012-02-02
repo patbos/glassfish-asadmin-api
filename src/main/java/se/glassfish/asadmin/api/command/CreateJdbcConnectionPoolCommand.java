@@ -138,6 +138,30 @@ public class CreateJdbcConnectionPoolCommand extends RemoteCommand<Integer> {
         this.allownoncomponentcallers = allownoncomponentcallers;
     }
 
+    public CreateJdbcConnectionPoolCommand(GlassFishEnvironment environment, String name, String datasourceclassname,
+                                           int steadypoolsize, int maxpoolsize, boolean isconnectvalidatereq,
+                                           JdbcValidationMethod validationMethod, String validationtable,
+                                           String validationclassname,
+                                           boolean failconnection, int validateatmostonceperiod, Properties properties, JdbcResourceType restype,
+                                           JdbcIsolationLevel isolationlevel, boolean allownoncomponentcallers, boolean nontransactionalconnections) {
+        super(environment);
+        this.datasourceclassname = datasourceclassname;
+        this.name = name;
+        this.steadypoolsize = steadypoolsize;
+        this.maxpoolsize = maxpoolsize;
+        this.isconnectvalidatereq = isconnectvalidatereq;
+        this.failconnection = failconnection;
+        this.properties = properties;
+        this.restype = restype;
+        this.isolationlevel = isolationlevel;
+        this.validationMethod = validationMethod;
+        this.validationtable = validationtable;
+        this.validationclassname = validationclassname;
+        this.validateatmostonceperiod = validateatmostonceperiod;
+        this.allownoncomponentcallers = allownoncomponentcallers;
+        this.nontransactionalconnections = nontransactionalconnections;
+    }
+
 
 
     public String getCommandName() {
