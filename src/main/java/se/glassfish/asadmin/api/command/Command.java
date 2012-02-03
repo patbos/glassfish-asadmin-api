@@ -132,7 +132,7 @@ public abstract class Command<E> {
                 commandLine.add(getCommandName());
             }
 
-            if (environment.getVersion() == Version.V3) {
+            if (environment.getVersion() == Version.V3 || environment.getVersion() == Version.V3_1) {
                 params.remove("--target");
             }
 
@@ -169,7 +169,7 @@ public abstract class Command<E> {
                     }
                 }
             }
-            if (environment.getVersion() == Version.V3 && !getCommandName().equals("create-domain") &&
+            if ((environment.getVersion() == Version.V3 || environment.getVersion() == Version.V3_1) && !getCommandName().equals("create-domain") &&
                     !getCommandName().equals("create-jdbc-connection-pool") &&
                     !getCommandName().equals("create-jdbc-resource") && !getCommandName().equals("deploy") && !getCommandName().equals("create-jvm-options")
                     && !getCommandName().equals("create-profiler") && !getCommandName().equals("create-jms-resource")

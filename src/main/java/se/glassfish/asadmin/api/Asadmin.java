@@ -140,6 +140,14 @@ public class Asadmin {
         new StartDomainCommand(environment, domainName).execute();
     }
 
+    public void upgradeDomain(String domainName) throws CommandException {
+        int code = new UpgradeDomainCommand(environment, domainName).execute();
+        if (code != 0) {
+            throw new CommandException("Could not upgrade domain");
+        }
+    }
+
+
     public int createProfilerJvmOptions(String... options) throws IOException, InterruptedException, CommandException {
         return new CreateJvmOptionsCommand(environment, DEFAULT_TARGET, true, options).execute();
     }
@@ -429,7 +437,7 @@ public class Asadmin {
     }
 
     public boolean isDomainRunning(String domainName) throws CommandException {
-        if (environment.getVersion() == Version.V2) {
+        if (environment.getVersion() == Version.V2 || environment.getVersion() == Version.V3_1) {
             DomainInfo domain = getDomain(domainName);
             return domain != null && domain.isRunning();
         } else {

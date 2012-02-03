@@ -196,7 +196,7 @@ public class CreateJdbcConnectionPoolCommand extends RemoteCommand<Integer> {
             if (validationMethod == JdbcValidationMethod.TABLE) {
                 addParam("validationtable", validationtable);
             }
-            if (environment.getVersion() == Version.V3)  {
+            if (environment.getVersion() == Version.V3 || environment.getVersion() == Version.V3_1)  {
                 if (validationMethod == JdbcValidationMethod.CUSTOM_VALIDATION) {
                     addParam("validationclassname", validationclassname);
                 }
