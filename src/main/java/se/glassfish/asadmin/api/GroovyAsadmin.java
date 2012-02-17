@@ -19,69 +19,107 @@
 
 package se.glassfish.asadmin.api;
 
+import groovy.lang.GroovyObject;
 import groovy.lang.GroovyObjectSupport;
-import se.glassfish.asadmin.api.command.GroovyCommand;
-
-import java.util.Map;
-import java.util.Set;
+import groovy.lang.MetaClass;
 
 
-public class GroovyAsadmin extends GroovyObjectSupport {
+public class GroovyAsadmin extends Asadmin implements GroovyObject {
 
-    private static final String DEFAULT_ADMIN_USERNAME = "admin";
-    private static final String DEFAULT_ADMIN_PASSWORD = "adminadmin";
-    private static final String DEFAULT_MASTER_PASSWORD = "changeit";
-    private static final String DEFAULT_HOSTNAME = "localhost";
-    private static final int DEFAULT_PORT = 4848;
-
-    protected GlassFishEnvironment environment;
+    private MetaClass metaClass;
 
     public GroovyAsadmin(String glassFishHome) {
-        environment = new GlassFishEnvironment(DEFAULT_ADMIN_USERNAME, DEFAULT_ADMIN_PASSWORD, DEFAULT_MASTER_PASSWORD, glassFishHome, true, DEFAULT_HOSTNAME, DEFAULT_PORT);
+        super(glassFishHome);
     }
 
     public GroovyAsadmin(String glassFishHome, String adminUsername, String adminPassword, String masterAdminPassword) {
-        environment = new GlassFishEnvironment(adminUsername, adminPassword, masterAdminPassword, glassFishHome);
+        super(glassFishHome, adminUsername, adminPassword, masterAdminPassword);
     }
 
     public GroovyAsadmin(String adminUsername, String adminPassword, String masterAdminPassword, String glassFishHome, String host, int port) {
-        environment = new GlassFishEnvironment(adminUsername, adminPassword, masterAdminPassword, glassFishHome, true, host, port);
+        super(adminUsername, adminPassword, masterAdminPassword, glassFishHome, host, port);
     }
 
     public GroovyAsadmin(String glassFishHome, int port, boolean useLocalAuth, boolean verbose) {
-        environment = new GlassFishEnvironment(glassFishHome, useLocalAuth, port, verbose);
+        super(glassFishHome, port, useLocalAuth, verbose);
     }
 
-
-    @Override
-    public Object invokeMethod(String name, Object argsList) {
-
-        System.out.println(name);
-
-        Object[] args = (Object[]) argsList;
-
-        Map params = (Map) args[0];
-        String arg = (String) args[1];
-
-        GroovyCommand command = new GroovyCommand(environment, name.replace('_', '-'));
-
-        Set keys = params.keySet();
-        for (Object key : keys) {
-            Object value = params.get(key);
-            command.addParam(key.toString(), value);
-        }
-
-        command.addArg(arg);
-
-        try {
-            command.execute();
-        } catch (CommandException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        return null;
-
-
+    public GroovyAsadmin(String glassFishHome, int port, boolean useLocalAuth, boolean verbose, Version version) {
+        super(glassFishHome, port, useLocalAuth, verbose, version);
     }
+
+    public GroovyAsadmin(String glassFishHome, String host, int port, boolean useLocalAuth, boolean verbose, Version version) {
+        super(glassFishHome, host, port, useLocalAuth, verbose, version);
+    }
+
+    public void setProperty(String property, Object newValue) {
+        System.out.println("Setting: " + property);
+    }
+
+    public Object getProperty(String property) {
+        return new Property(this, property);
+    }
+
+    public Object invokeMethod(String s, Object o) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public MetaClass getMetaClass() {
+        return metaClass;
+    }
+
+    public void setMetaClass(MetaClass metaClass) {
+        this.metaClass = metaClass;
+    }
+
+    class Property extends GroovyObjectSupport {
+
+        String name;
+        Property parent;
+        GroovyAsadmin asadmin;
+
+        Property(GroovyAsadmin asadmin, String name) {
+            this.name = name;
+            this.asadmin = asadmin;
+        }
+
+        Property(GroovyAsadmin asadmin, Property property, String name) {
+            this.name = name;
+            this.parent = property;
+            this.asadmin = asadmin;
+        }
+
+        @Override
+        public Object getProperty(String property) {
+            return new Property(asadmin, this, property);
+        }
+
+        @Override
+        public void setProperty(String property, Object newValue) {
+            if (parent != null) {
+                String s = parent.resolveProperty();
+                System.out.println("Setting: " + s + "." + name);
+            } else {
+                System.out.println("Setting: " + name + "." + property);
+            }
+        }
+
+        public String resolveProperty() {
+            if (parent != null) {
+                return parent.resolveProperty() + "." + name;
+            } else {
+                return name;
+            }
+        }
+
+        @Override
+        public String toString() {
+            if (parent != null) {
+                return parent.resolveProperty() + "." + name;
+            } else {
+                return name;
+            }
+        }
+    }
+
 }
