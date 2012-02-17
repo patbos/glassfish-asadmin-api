@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>se.glassfish</groupId>
     <artifactId>glassfish-asadmin-api</artifactId>
-    <version>0.3.0</version>
+    <version>0.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>GlassFish Asadmin API</name>
     <description>
