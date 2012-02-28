@@ -165,7 +165,15 @@ public class DeployCommand extends RemoteCommand<Integer> {
         try {
             addArg(file.getCanonicalPath());
 
-            return executeCommand().getReturnCode();
+            int code = executeCommand().getReturnCode();
+            if (code != 0) {
+                if (getErrors().size() > 0) {
+                    throw new CommandException("Error deploying domain: " + getErrors().get(0));
+                } else {
+                    throw new CommandException("Error deploying domain");
+                }
+            }
+            return code;
         } catch (IOException e) {
             throw new CommandException(e);
         }
