@@ -539,6 +539,9 @@ public class Asadmin {
         return new PingConnectionPoolCommand(environment, poolname).execute();
     }
 
+    public void enableSecureAdmin() throws CommandException {
+        new EnableSecureAdminCommand(environment).execute();
+    }
 
     private DomainInfo getDomain(String domainName) throws CommandException {
         List<DomainInfo> domains = listDomains();

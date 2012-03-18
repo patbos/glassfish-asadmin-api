@@ -43,14 +43,26 @@ public class ListDomainsCommand extends Command<List<DomainInfo>> {
         List<String> domains = commandResult.getOutput();
         for (String domain : domains) {
             if (!domain.startsWith("Command list-domains") && !domain.startsWith("CLI")) {
+
                 if (environment.getVersion() == Version.V3) {
-                    String domainName = domain.substring(6, domain.indexOf("Status: ") -1);
+                    String domainName = domain.substring(6, domain.indexOf("Status: ") - 1);
                     String status = domain.substring(domain.indexOf("Status: ") + 8, domain.length());
                     boolean running = status.startsWith("Running");
                     boolean restart = status.equals("Running, restart required to apply configuration changes");
                     result.add(new DomainInfo(domainName, running, restart));
-
-                } else {
+                }
+                if (environment.getVersion() == Version.V3_1) {
+                    //sunedomain running, restart required to apply configuration changes
+                    int index = domain.indexOf(" ");
+                    String domainName = domain.substring(0, index);
+                    String status = domain.substring(index + 1, domain.length());
+                    //TODO add this status
+                    boolean starting = status.equals("starting");
+                    boolean running = status.equals("running") || status.equals("running, restart required to apply configuration changes");
+                    boolean restart = status.equals("running, restart required to apply configuration changes");
+                    result.add(new DomainInfo(domainName, running, restart));
+                }
+                if (environment.getVersion() == Version.V2) {
                     //boolean running = true;
                     int index = domain.indexOf(" ");
                     String domainName = domain.substring(0, index);
