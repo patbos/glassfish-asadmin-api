@@ -98,9 +98,19 @@ public class GroovyAsadmin extends Asadmin implements GroovyObject {
         public void setProperty(String property, Object newValue) {
             if (parent != null) {
                 String s = parent.resolveProperty();
-                System.out.println("Setting: " + s + "." + name);
+                System.out.println("Setting: " + s + "." + name + "." + property);
+                try {
+                    asadmin.set(s + "." + name + "." + property, newValue.toString());
+                } catch (CommandException e) {
+                    throw new IllegalArgumentException(e.getMessage());
+                }
             } else {
                 System.out.println("Setting: " + name + "." + property);
+                try {
+                    asadmin.set(name + "." + property, newValue.toString());
+                } catch (CommandException e) {
+                    throw new IllegalArgumentException(e.getMessage());
+                }
             }
         }
 
@@ -112,6 +122,11 @@ public class GroovyAsadmin extends Asadmin implements GroovyObject {
             }
         }
 
+        public Object getValue() throws CommandException {
+            String name = toString();
+            return asadmin.get(name);
+        }
+        
         @Override
         public String toString() {
             if (parent != null) {
