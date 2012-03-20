@@ -397,7 +397,7 @@ public class Asadmin {
     }
 
     public boolean isRestartNeeded(String domainName) throws CommandException {
-        if (environment.getVersion() == Version.V2) {
+        if (environment.getVersion() == Version.V2 || environment.getVersion() == Version.V3_1) {
             DomainInfo domain = getDomain(domainName);
             return domain.isRestartRequired();
         } else {
@@ -540,7 +540,9 @@ public class Asadmin {
     }
 
     public void enableSecureAdmin() throws CommandException {
-        new EnableSecureAdminCommand(environment).execute();
+        if (environment.getVersion() == Version.V3_1) {
+            new EnableSecureAdminCommand(environment).execute();
+        }
     }
 
     private DomainInfo getDomain(String domainName) throws CommandException {
