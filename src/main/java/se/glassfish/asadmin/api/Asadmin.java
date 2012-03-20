@@ -153,7 +153,7 @@ public class Asadmin {
     }
 
     public int createProfiler(String classpath,
-                                 String nativelibpath, boolean enabled, String name) throws CommandException {
+                              String nativelibpath, boolean enabled, String name) throws CommandException {
         return new CreateProfilerCommand(environment, DEFAULT_TARGET, classpath, nativelibpath, enabled, name).execute();
     }
 
@@ -163,7 +163,7 @@ public class Asadmin {
 
 
     public int createProfiler(String classpath,
-                                 String nativelibpath, boolean enabled, String name, String... options) throws
+                              String nativelibpath, boolean enabled, String name, String... options) throws
             CommandException, IOException, InterruptedException {
         new CreateProfilerCommand(environment, DEFAULT_TARGET, classpath, nativelibpath, enabled, name).execute();
         /*if (environment.getVersion() == Version.V3) {
@@ -197,7 +197,6 @@ public class Asadmin {
     public int createJvmOptions(List<String> options, boolean profiler) throws IOException, InterruptedException, CommandException {
         return new CreateJvmOptionsCommand(environment, DEFAULT_TARGET, profiler, options.toArray(new String[]{})).execute();
     }
-
 
 
     public int deleteJvmOptions(String... options) throws IOException, InterruptedException, CommandException {
@@ -240,11 +239,11 @@ public class Asadmin {
     }
 
     public int createJdbcConnectionPool(String name, String datasourceclassname,
-                                           int steadypoolsize, int maxpoolsize, boolean isconnectvalidatereq,
-                                           JdbcValidationMethod validationMethod, String validationtable,
-                                           String validationclassname,
-                                           boolean failconnection, int validateatmostonceperiod, Properties properties,
-                                           JdbcResourceType restype, JdbcIsolationLevel isolationlevel)
+                                        int steadypoolsize, int maxpoolsize, boolean isconnectvalidatereq,
+                                        JdbcValidationMethod validationMethod, String validationtable,
+                                        String validationclassname,
+                                        boolean failconnection, int validateatmostonceperiod, Properties properties,
+                                        JdbcResourceType restype, JdbcIsolationLevel isolationlevel)
             throws CommandException {
         CreateJdbcConnectionPoolCommand command = new CreateJdbcConnectionPoolCommand(environment, name,
                 datasourceclassname, steadypoolsize, maxpoolsize, isconnectvalidatereq, validationMethod,
@@ -542,6 +541,12 @@ public class Asadmin {
     public void enableSecureAdmin() throws CommandException {
         if (environment.getVersion() == Version.V3_1) {
             new EnableSecureAdminCommand(environment).execute();
+        }
+    }
+
+    public void enableSecureAdmin(String adminAlias, String instanceAlias) throws CommandException {
+        if (environment.getVersion() == Version.V3_1) {
+            new EnableSecureAdminCommand(environment, adminAlias, instanceAlias).execute();
         }
     }
 
