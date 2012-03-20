@@ -28,7 +28,7 @@ public class PasswordFile {
     public PasswordFile(String masterPassword, String adminPassword, String aliasPassword, String userPassword, Version version) throws IOException {
         file = File.createTempFile("pass", "gf");
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false)));
-        if (version.equals(Version.V3)) {
+        if (version.equals(Version.V3) || version.equals(Version.V3_1)) {
             writer.write("AS_ADMIN_PASSWORD=" + adminPassword);
         } else {
             writer.write("AS_ADMIN_ADMINPASSWORD=" + adminPassword);
