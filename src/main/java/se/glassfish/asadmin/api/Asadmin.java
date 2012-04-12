@@ -198,6 +198,9 @@ public class Asadmin {
         return new CreateJvmOptionsCommand(environment, DEFAULT_TARGET, profiler, options.toArray(new String[]{})).execute();
     }
 
+	public int createSystemProperties(String propertyName, String propertyValue) throws IOException, InterruptedException, CommandException {
+        return new CreateSystemPropertiesCommand(environment, propertyName, propertyValue).execute();
+    }
 
     public int deleteJvmOptions(String... options) throws IOException, InterruptedException, CommandException {
         return new DeleteJvmOptionsCommand(environment, DEFAULT_TARGET, options).execute();
