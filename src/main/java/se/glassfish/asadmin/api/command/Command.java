@@ -19,21 +19,13 @@
 
 package se.glassfish.asadmin.api.command;
 
-import se.glassfish.asadmin.api.CommandException;
-import se.glassfish.asadmin.api.GlassFishEnvironment;
-import se.glassfish.asadmin.api.Version;
+import se.glassfish.asadmin.api.*;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 public abstract class Command<E> {
 
-    private static final int PROCESS_LOOP_SLEEP_MILLIS = 100;
-
-    private List<String> errors = new ArrayList<String>();
 
     protected GlassFishEnvironment environment;
 
@@ -106,14 +98,11 @@ public abstract class Command<E> {
         return escaped;
     }
 
-    public List<String> getErrors() {
-        return errors;
-    }
 
     protected CommandResult executeCommand() throws CommandException {
         try {
             List<String> commandLine = new ArrayList<String>();
-            StringBuffer asadmin = new StringBuffer();
+            StringBuilder asadmin = new StringBuilder();
             asadmin.append(environment.getGlassFishHome());
             asadmin.append(File.separator);
             asadmin.append("bin");
@@ -181,7 +170,7 @@ public abstract class Command<E> {
                 commandLine.add(argument);
             }
 
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             for (String argument : commandLine) {
                 buffer.append(argument).append(" ");
             }
@@ -189,45 +178,14 @@ public abstract class Command<E> {
             if (environment.isVerbose()) {
                 System.out.println("command: " + buffer.toString());
             }
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command(commandLine);
-            Process process = processBuilder.start();
-            BufferedReader outReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            BufferedReader errReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
-            List<String> output = new ArrayList<String>();
-            //List<String> errors = new ArrayList<String>();
-
-            int exit;
-            do {
-                try {
-                    exit = process.exitValue();
-                    if (environment.isVerbose())
-                        System.out.println("exit: " + exit);
-                    break;
-                } catch (IllegalThreadStateException e) {
-                    Thread.sleep(PROCESS_LOOP_SLEEP_MILLIS);
-                } finally {
-                    while (outReader.ready()) {
-                        String line = outReader.readLine();
-                        if (environment.isVerbose())
-                            System.out.println("out: " + line);
-                        output.add(line);
-                    }
-                    while (errReader.ready()) {
-                        String line = errReader.readLine();
-                        if (environment.isVerbose())
-                            System.out.println("error: " + line);
-                        errors.add(line);
-                    }
-                }
-            } while (true);
+            ExecutorResult result = environment.getCommandExecutor().execute(buffer.toString() , environment.isVerbose());
 
 
             //passwordFile.delete();
             CommandException exception = null;
 
-            for (String error : errors) {
+            for (String error : result.getErrors()) {
                 if (error.startsWith("CLI")) {
                     exception = new CommandException(error);
                 }
@@ -237,10 +195,8 @@ public abstract class Command<E> {
                 throw exception;
             }
 
-            return new CommandResult(exit, output, errors);
-        } catch (IOException e) {
-            throw new CommandException(e);
-        } catch (InterruptedException e) {
+            return new CommandResult(result.getExitCode(), result.getOutput(), result.getErrors());
+        } catch (ExecutorException e) {
             throw new CommandException(e);
         }
     }

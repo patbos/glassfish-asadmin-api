@@ -33,6 +33,8 @@ public class GlassFishEnvironment {
 
     private Version version = Version.V2;
 
+    private CommandExecutor commandExecutor = new CommandLineExecutor();
+
     public GlassFishEnvironment(String glassFishHome) {
         this.glassFishHome = glassFishHome;
     }
@@ -135,5 +137,9 @@ public class GlassFishEnvironment {
 
     public void setUselocalAuth(boolean uselocalAuth) {
         this.uselocalAuth = uselocalAuth;
+    }
+
+    public CommandExecutor getCommandExecutor() {
+        return commandExecutor;
     }
 }

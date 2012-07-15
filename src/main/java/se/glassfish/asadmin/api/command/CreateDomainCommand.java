@@ -171,10 +171,12 @@ public class CreateDomainCommand extends AuthCommand<Integer> {
         }
 
         addArg(name);
-        int code = executeCommand().getReturnCode();
+        CommandResult result = executeCommand();
+        int code = result.getReturnCode();
+
         if (code != 0) {
-            if (getErrors().size() > 0) {
-                throw new CommandException("Error creating domain: " + getErrors().get(0));
+            if (result.getErrors().size() > 0) {
+                throw new CommandException("Error creating domain: " + result.getErrors().get(0));
             } else {
                 throw new CommandException("Error creating domain");
             }
