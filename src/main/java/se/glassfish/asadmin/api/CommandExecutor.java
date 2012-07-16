@@ -1,5 +1,3 @@
-package se.glassfish.asadmin.api;
-
 /**
  * Java API for management of GlassFish servers.
  * Copyright (C) 2010 Patrik Boström
@@ -18,8 +16,9 @@ package se.glassfish.asadmin.api;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-public interface CommandExecutor {
+package se.glassfish.asadmin.api;
 
+public interface CommandExecutor {
 
     ExecutorResult execute(String commandLine, boolean verbose) throws ExecutorException;
 }

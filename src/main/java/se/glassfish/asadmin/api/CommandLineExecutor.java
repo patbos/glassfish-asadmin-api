@@ -1,11 +1,3 @@
-package se.glassfish.asadmin.api;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Java API for management of GlassFish servers.
  * Copyright (C) 2010 Patrik Boström
@@ -24,6 +16,14 @@ import java.util.List;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+package se.glassfish.asadmin.api;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 public class CommandLineExecutor implements CommandExecutor {
 
     private static final int PROCESS_LOOP_SLEEP_MILLIS = 100;

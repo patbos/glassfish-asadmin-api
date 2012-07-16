@@ -1,7 +1,3 @@
-package se.glassfish.asadmin.api;
-
-import java.util.List;
-
 /**
  * Java API for management of GlassFish servers.
  * Copyright (C) 2010 Patrik Boström
@@ -20,6 +16,10 @@ import java.util.List;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+package se.glassfish.asadmin.api;
+
+import java.util.List;
+
 public class ExecutorResult {
 
     private List<String> output;
