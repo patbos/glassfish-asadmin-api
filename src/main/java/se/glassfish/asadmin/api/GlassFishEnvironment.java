@@ -142,4 +142,8 @@ public class GlassFishEnvironment {
     public CommandExecutor getCommandExecutor() {
         return commandExecutor;
     }
+
+    public void setCommandExecutor(CommandExecutor commandExecutor) {
+        this.commandExecutor = commandExecutor;
+    }
 }

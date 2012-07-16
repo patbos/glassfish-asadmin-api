@@ -43,6 +43,12 @@ public class Asadmin {
                 glassFishHome, true, DEFAULT_HOSTNAME, DEFAULT_PORT);
     }
 
+    public Asadmin(String glassFishHome, CommandExecutor executor) {
+        environment = new GlassFishEnvironment(DEFAULT_ADMIN_USERNAME, DEFAULT_ADMIN_PASSWORD, DEFAULT_MASTER_PASSWORD,
+                glassFishHome, true, DEFAULT_HOSTNAME, DEFAULT_PORT);
+        environment.setCommandExecutor(executor);
+    }
+
     public Asadmin(String glassFishHome, String adminUsername, String adminPassword, String masterAdminPassword) {
         environment = new GlassFishEnvironment(adminUsername, adminPassword, masterAdminPassword, glassFishHome);
     }
